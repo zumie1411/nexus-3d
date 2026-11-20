@@ -35,21 +35,11 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 scene.add(new THREE.AmbientLight(0xffffff, 1.2));
 
-const purpleLight = new THREE.PointLight(
-  0xa78bfa,
-  35,
-  30
-);
-
+const purpleLight = new THREE.PointLight(0xa78bfa, 35, 30);
 purpleLight.position.set(3, 2, 4);
 scene.add(purpleLight);
 
-const cyanLight = new THREE.PointLight(
-  0x70f0ff,
-  20,
-  25
-);
-
+const cyanLight = new THREE.PointLight(0x70f0ff, 20, 25);
 cyanLight.position.set(-4, -2, 3);
 scene.add(cyanLight);
 
@@ -67,14 +57,11 @@ const coreMaterial = new THREE.MeshPhysicalMaterial({
   metalness: 0.8,
   roughness: 0.2,
   emissive: 0x241044,
-  emissiveIntensity: 0.6,
-  wireframe: false
+  emissiveIntensity: 0.6
 });
 
 const core = new THREE.Mesh(coreGeometry, coreMaterial);
 coreGroup.add(core);
-
-/* Inner energy sphere */
 
 const innerCore = new THREE.Mesh(
   new THREE.SphereGeometry(0.7, 32, 32),
@@ -84,8 +71,6 @@ const innerCore = new THREE.Mesh(
 );
 
 coreGroup.add(innerCore);
-
-/* Wireframe shell */
 
 const wireframe = new THREE.Mesh(
   new THREE.IcosahedronGeometry(1.85, 2),
@@ -105,15 +90,10 @@ coreGroup.add(wireframe);
 
 const rings = [];
 
-for(let i = 0; i < 3; i++){
+for (let i = 0; i < 3; i++) {
 
   const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(
-      2.3 + i * 0.35,
-      0.012,
-      8,
-      180
-    ),
+    new THREE.TorusGeometry(2.3 + i * 0.35, 0.012, 8, 180),
     new THREE.MeshBasicMaterial({
       color: i % 2 === 0 ? 0xa78bfa : 0x70f0ff,
       transparent: true,
@@ -146,7 +126,7 @@ const portalPositions = [
   [0, 3, -4]
 ];
 
-for(let i = 0; i < 3; i++){
+for (let i = 0; i < 3; i++) {
 
   const portalGroup = new THREE.Group();
 
@@ -199,7 +179,7 @@ const particlePositions = new Float32Array(
   particleCount * 3
 );
 
-for(let i = 0; i < particleCount; i++){
+for (let i = 0; i < particleCount; i++) {
 
   particlePositions[i * 3] =
     (Math.random() - 0.5) * 80;
@@ -209,16 +189,14 @@ for(let i = 0; i < particleCount; i++){
 
   particlePositions[i * 3 + 2] =
     (Math.random() - 0.5) * 80;
+
 }
 
 const particleGeometry = new THREE.BufferGeometry();
 
 particleGeometry.setAttribute(
   "position",
-  new THREE.BufferAttribute(
-    particlePositions,
-    3
-  )
+  new THREE.BufferAttribute(particlePositions, 3)
 );
 
 const particleMaterial = new THREE.PointsMaterial({
@@ -260,19 +238,25 @@ window.addEventListener("pointermove", (event) => {
 
   const glow = document.querySelector(".cursor-glow");
 
-  if(glow){
+  if (glow) {
     glow.style.left = event.clientX + "px";
     glow.style.top = event.clientY + "px";
   }
 
   document.getElementById("coordinates").textContent =
-    `X: ${Math.round(event.clientX).toString().padStart(3,"0")} / Y: ${Math.round(event.clientY).toString().padStart(3,"0")}`;
+    `X: ${Math.round(event.clientX).toString().padStart(3, "0")} / Y: ${Math.round(event.clientY).toString().padStart(3, "0")}`;
 
 });
 
-/* Drag to rotate */
+/* Drag rotation */
 
 window.addEventListener("pointerdown", (event) => {
+
+  if (
+    event.target.closest("button") ||
+    event.target.closest("a") ||
+    event.target.closest(".modal")
+  ) return;
 
   isDragging = true;
 
@@ -287,7 +271,7 @@ window.addEventListener("pointerup", () => {
 
 window.addEventListener("pointermove", (event) => {
 
-  if(!isDragging) return;
+  if (!isDragging) return;
 
   const dx = event.clientX - previousMouseX;
   const dy = event.clientY - previousMouseY;
@@ -323,16 +307,15 @@ window.addEventListener("scroll", () => {
 ========================== */
 
 const raycaster = new THREE.Raycaster();
-
 const pointer = new THREE.Vector2();
 
 window.addEventListener("click", (event) => {
 
-  if(event.target.closest("button") ||
-     event.target.closest("a") ||
-     event.target.closest(".modal")){
-    return;
-  }
+  if (
+    event.target.closest("button") ||
+    event.target.closest("a") ||
+    event.target.closest(".modal")
+  ) return;
 
   pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
   pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -344,15 +327,18 @@ window.addEventListener("click", (event) => {
     true
   );
 
-  if(hits.length > 0){
+  if (hits.length > 0) {
 
     let object = hits[0].object;
 
-    while(object && object.userData.portalIndex === undefined){
+    while (
+      object &&
+      object.userData.portalIndex === undefined
+    ) {
       object = object.parent;
     }
 
-    if(object){
+    if (object) {
       openPortal(object.userData.portalIndex);
     }
 
@@ -363,6 +349,8 @@ window.addEventListener("click", (event) => {
 /* ==========================
    PORTAL MODALS
 ========================== */
+
+const modal = document.getElementById("portalModal");
 
 const portalData = [
   {
@@ -385,9 +373,7 @@ const portalData = [
   }
 ];
 
-const modal = document.getElementById("portalModal");
-
-function openPortal(index){
+function openPortal(index) {
 
   const data = portalData[index];
 
@@ -404,15 +390,13 @@ function openPortal(index){
     `GATEWAY / 00${index + 1}`;
 
   modal.classList.add("active");
-
   document.body.classList.add("modal-open");
 
 }
 
-function closePortal(){
+function closePortal() {
 
   modal.classList.remove("active");
-
   document.body.classList.remove("modal-open");
 
 }
@@ -429,13 +413,11 @@ document.getElementById("modalConfirm").addEventListener(
 
 modal.addEventListener("click", (event) => {
 
-  if(event.target === modal){
+  if (event.target === modal) {
     closePortal();
   }
 
 });
-
-/* Portal card buttons */
 
 document.querySelectorAll("[data-portal]").forEach(
   button => {
@@ -446,9 +428,7 @@ document.querySelectorAll("[data-portal]").forEach(
 
       openPortal(index);
 
-      const message = document.getElementById("portalMessage");
-
-      message.textContent =
+      document.getElementById("portalMessage").textContent =
         `GATE / 00${index + 1} // CONNECTION ESTABLISHED`;
 
     });
@@ -457,19 +437,199 @@ document.querySelectorAll("[data-portal]").forEach(
 );
 
 /* ==========================
-   SOUND BUTTON
+   AMBIENT SOUND ENGINE
 ========================== */
 
 let soundEnabled = false;
+let audioContext = null;
+let masterGain = null;
+let oscillators = [];
+let ambientStopTimer = null;
+
+function startAmbientSound() {
+
+  /* Cancel any pending shutdown */
+
+  if (ambientStopTimer) {
+    clearTimeout(ambientStopTimer);
+    ambientStopTimer = null;
+  }
+
+  /* Reuse a context if one exists */
+
+  if (audioContext) {
+
+    if (audioContext.state === "suspended") {
+      audioContext.resume();
+    }
+
+    masterGain.gain.cancelScheduledValues(
+      audioContext.currentTime
+    );
+
+    masterGain.gain.setTargetAtTime(
+      0.4,
+      audioContext.currentTime,
+      1.2
+    );
+
+    return;
+  }
+
+  audioContext = new (
+    window.AudioContext ||
+    window.webkitAudioContext
+  )();
+
+  masterGain = audioContext.createGain();
+
+  masterGain.gain.value = 0;
+
+  masterGain.connect(audioContext.destination);
+
+  /* LOW COSMIC DRONE */
+
+  const drone1 = audioContext.createOscillator();
+  const droneGain1 = audioContext.createGain();
+
+  drone1.type = "sine";
+  drone1.frequency.value = 55;
+
+  droneGain1.gain.value = 0.15;
+
+  drone1.connect(droneGain1);
+  droneGain1.connect(masterGain);
+
+  drone1.start();
+
+  /* SECOND HARMONIC */
+
+  const drone2 = audioContext.createOscillator();
+  const droneGain2 = audioContext.createGain();
+
+  drone2.type = "sine";
+  drone2.frequency.value = 110.5;
+
+  droneGain2.gain.value = 0.05;
+
+  drone2.connect(droneGain2);
+  droneGain2.connect(masterGain);
+
+  drone2.start();
+
+  /* HIGH ATMOSPHERIC TONE */
+
+  const drone3 = audioContext.createOscillator();
+  const droneGain3 = audioContext.createGain();
+
+  drone3.type = "triangle";
+  drone3.frequency.value = 220;
+
+  droneGain3.gain.value = 0.015;
+
+  drone3.connect(droneGain3);
+  droneGain3.connect(masterGain);
+
+  drone3.start();
+
+  /* SLOW MODULATION */
+
+  const lfo = audioContext.createOscillator();
+  const lfoGain = audioContext.createGain();
+
+  lfo.type = "sine";
+  lfo.frequency.value = 0.08;
+
+  lfoGain.gain.value = 4;
+
+  lfo.connect(lfoGain);
+  lfoGain.connect(drone2.frequency);
+
+  lfo.start();
+
+  oscillators = [
+    drone1,
+    drone2,
+    drone3,
+    lfo
+  ];
+
+  masterGain.gain.setTargetAtTime(
+    0.4,
+    audioContext.currentTime,
+    1.5
+  );
+
+}
+
+function stopAmbientSound() {
+
+  if (!audioContext || !masterGain) return;
+
+  const contextToClose = audioContext;
+  const gainToFade = masterGain;
+  const oscillatorsToStop = [...oscillators];
+
+  gainToFade.gain.cancelScheduledValues(
+    contextToClose.currentTime
+  );
+
+  gainToFade.gain.setTargetAtTime(
+    0,
+    contextToClose.currentTime,
+    0.4
+  );
+
+  ambientStopTimer = setTimeout(async () => {
+
+    try {
+
+      oscillatorsToStop.forEach(oscillator => {
+
+        try {
+          oscillator.stop();
+        } catch (error) {}
+
+      });
+
+      await contextToClose.close();
+
+    } catch (error) {}
+
+    if (audioContext === contextToClose) {
+
+      audioContext = null;
+      masterGain = null;
+      oscillators = [];
+
+    }
+
+    ambientStopTimer = null;
+
+  }, 1500);
+
+}
+
+/* SOUND TOGGLE */
 
 document.getElementById("soundToggle").addEventListener(
   "click",
-  () => {
+  async () => {
 
     soundEnabled = !soundEnabled;
 
     document.getElementById("soundState").textContent =
       soundEnabled ? "ON" : "OFF";
+
+    if (soundEnabled) {
+
+      startAmbientSound();
+
+    } else {
+
+      stopAmbientSound();
+
+    }
 
   }
 );
@@ -480,13 +640,13 @@ document.getElementById("soundToggle").addEventListener(
 
 const clock = new THREE.Clock();
 
-function animate(){
+function animate() {
 
   requestAnimationFrame(animate);
 
   const elapsed = clock.getElapsedTime();
 
-  /* Core animation */
+  /* Core */
 
   core.rotation.y = elapsed * 0.15;
   core.rotation.x = Math.sin(elapsed * 0.3) * 0.15;
@@ -507,7 +667,7 @@ function animate(){
 
   });
 
-  /* Portal floating */
+  /* Portals */
 
   portalObjects.forEach((portal, i) => {
 
@@ -520,14 +680,14 @@ function animate(){
 
   });
 
-  /* Particle rotation */
+  /* Particles */
 
   particles.rotation.y = elapsed * 0.015;
   particles.rotation.x = elapsed * 0.01;
 
   /* Mouse movement */
 
-  if(!isDragging){
+  if (!isDragging) {
 
     coreGroup.rotation.x +=
       (targetRotationX - coreGroup.rotation.x) * 0.015;
@@ -537,7 +697,7 @@ function animate(){
 
   }
 
-  /* Scroll camera motion */
+  /* Scroll camera */
 
   camera.position.z =
     8 - scrollProgress * 3.5;
@@ -554,7 +714,7 @@ function animate(){
     0
   );
 
-  /* Core scale */
+  /* Core breathing */
 
   const scale =
     1 + Math.sin(elapsed * 0.6) * 0.03;
@@ -605,29 +765,28 @@ window.addEventListener("load", () => {
 });
 
 /* ==========================
-   GSAP SECTION ANIMATIONS
+   GSAP ANIMATIONS
 ========================== */
 
-if(window.gsap){
+if (window.gsap) {
 
   gsap.from(".hero-content", {
-    opacity:0,
-    y:40,
-    duration:1.2,
-    delay:1.2,
-    ease:"power3.out"
+    opacity: 0,
+    y: 40,
+    duration: 1.2,
+    delay: 1.2,
+    ease: "power3.out"
   });
 
   gsap.utils.toArray(".section-content").forEach(
     section => {
 
       gsap.from(section.children, {
-        opacity:0,
-        y:40,
-        stagger:0.15,
-        duration:1,
-        ease:"power3.out",
-        scrollTrigger:undefined
+        opacity: 0,
+        y: 40,
+        stagger: 0.15,
+        duration: 1,
+        ease: "power3.out"
       });
 
     }
