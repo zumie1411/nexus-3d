@@ -1,20 +1,21 @@
 # NEXUS — Beyond the Dimension
 
-An immersive 3D interactive web experience exploring digital space, movement, light and dimensional interaction.
+A small experiment in 3D web design, motion, and interaction.
 
-## Live Experience
+NEXUS is an interactive digital space built around a glowing central core, floating portals, particle effects, and a minimal futuristic interface. Instead of a traditional landing page, the idea was to make the website feel like stepping into a different dimension.
 
-Coming soon.
+**Live Demo:** https://nexus-3d-pu91.onrender.com
 
-## Features
+## What’s inside
 
-- Interactive Three.js 3D core
-- Floating portal objects
-- Particle-based universe
-- Mouse-controlled interaction
-- Scroll-responsive camera movement
-- Interactive gateway panels
-- Animated 3D environment
+- Interactive 3D environment built with Three.js
+- Animated central geometric core with orbital rings
+- Floating portals with different visual identities
+- Particle system for atmosphere and depth
+- Mouse-based interaction and camera movement
+- Scroll-responsive animations
+- Ambient sound generated in-browser using the Web Audio API
+- Portal interaction with custom modal interfaces
 - Responsive layout
 
 ## Tech Stack
@@ -24,25 +25,30 @@ Coming soon.
 - JavaScript
 - Three.js
 - GSAP
+- Web Audio API
 
-## Run Locally
+## Running locally
 
 Clone the repository:
 
-    git clone https://github.com/YOUR-USERNAME/nexus-3d.git
+```bash
+git clone https://github.com/YOUR-USERNAME/nexus-3d.git
+```
 
-Navigate to the folder:
+Navigate into the project:
 
-    cd nexus-3d
+```bash
+cd nexus-3d
+```
 
-Open the project using VS Code Live Server.
+Open `index.html` in a browser or run it using the Live Server extension in VS Code.
 
-## Concept
+## A little about the project
 
-NEXUS is an experimental digital universe designed to explore interaction, motion and 3D web environments.
+NEXUS was built to explore how far a browser-based experience can go beyond static layouts. The focus was on movement, atmosphere, interaction, and making the 3D elements feel like part of the website rather than just decoration.
 
-The experience uses 3D objects, particles, dynamic movement and interactive elements to transform a traditional website into an exploration space.
+It's an ongoing experiment in creative web development.
 
 ---
 
-NEXUS / BEYOND THE DIMENSION
+Built with curiosity and a little bit of code.
