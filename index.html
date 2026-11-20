@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXUS — Beyond the Dimension</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
+</head>
+
+<body>
+
+  <div class="noise"></div>
+  <div class="cursor-glow"></div>
+
+  <header class="topbar">
+    <a class="logo" href="#home">N<span>/</span>X</a>
+
+    <div class="topbar-status">
+      <span class="status-dot"></span>
+      SYSTEM ONLINE
+    </div>
+
+    <button class="sound-toggle" id="soundToggle">
+      SOUND <span id="soundState">OFF</span>
+    </button>
+  </header>
+
+  <div class="scene-container">
+    <canvas id="scene"></canvas>
+  </div>
+
+  <div class="hud">
+    <span class="hud-left">NEXUS EXPLORATION SYSTEM</span>
+    <span class="hud-right" id="coordinates">X: 000 / Y: 000</span>
+  </div>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="screen hero" id="home">
+
+      <div class="hero-content">
+        <p class="eyebrow">INTERACTIVE REALITY / 001</p>
+
+        <h1>NEX<span>U</span>S</h1>
+
+        <p class="hero-subtitle">
+          BEYOND THE DIMENSION.
+        </p>
+
+        <p class="hero-description">
+          A journey through digital space, where reality
+          becomes an interactive experience.
+        </p>
+
+        <a href="#explore" class="explore-btn">
+          INITIATE EXPLORATION <span>↗</span>
+        </a>
+      </div>
+
+      <div class="hero-side">
+        <span>DIMENSION 01</span>
+        <span>UNKNOWN TERRITORY</span>
+      </div>
+
+      <div class="scroll-indicator">
+        <div class="scroll-line"></div>
+        SCROLL TO DESCEND
+      </div>
+
+    </section>
+
+    <!-- EXPLORATION -->
+    <section class="screen explore" id="explore">
+
+      <div class="section-content">
+        <p class="eyebrow">02 / THE CORE</p>
+
+        <h2>
+          THE UNIVERSE<br>
+          IS <span>INTERACTIVE.</span>
+        </h2>
+
+        <p class="section-description">
+          Move through the unknown. Shift your perspective.
+          The world responds to you.
+        </p>
+
+        <div class="interaction-hint">
+          <span class="hint-icon">✳</span>
+          DRAG / ROTATE THE CORE
+        </div>
+      </div>
+
+      <div class="section-side-note">
+        <span>CORE DETECTED</span>
+        <span>ENERGY: 98.7%</span>
+      </div>
+
+    </section>
+
+    <!-- PORTALS -->
+    <section class="screen portals" id="portals">
+
+      <div class="section-content portal-heading">
+        <p class="eyebrow">03 / GATEWAYS</p>
+
+        <h2>CHOOSE YOUR<br><span>DIMENSION.</span></h2>
+
+        <p class="section-description">
+          Three gateways. Three different realities.
+          Select a portal to unlock its signal.
+        </p>
+      </div>
+
+      <div class="portal-interface">
+
+        <button class="portal-card" data-portal="0">
+          <span class="portal-index">GATE / 001</span>
+          <span class="portal-symbol">◉</span>
+          <span class="portal-name">ORIGIN</span>
+          <span class="portal-description">THE BEGINNING</span>
+          <span class="portal-action">ACCESS ↗</span>
+        </button>
+
+        <button class="portal-card" data-portal="1">
+          <span class="portal-index">GATE / 002</span>
+          <span class="portal-symbol">⌬</span>
+          <span class="portal-name">VOID</span>
+          <span class="portal-description">THE UNKNOWN</span>
+          <span class="portal-action">ACCESS ↗</span>
+        </button>
+
+        <button class="portal-card" data-portal="2">
+          <span class="portal-index">GATE / 003</span>
+          <span class="portal-symbol">⟁</span>
+          <span class="portal-name">NOVA</span>
+          <span class="portal-description">THE INFINITE</span>
+          <span class="portal-action">ACCESS ↗</span>
+        </button>
+
+      </div>
+
+      <div class="portal-message" id="portalMessage">
+        SELECT A GATEWAY TO BEGIN
+      </div>
+
+    </section>
+
+    <!-- FINAL -->
+    <section class="screen finale" id="final">
+
+      <div class="section-content finale-content">
+        <p class="eyebrow">04 / TRANSMISSION COMPLETE</p>
+
+        <h2>REALITY IS<br><span>LIMITLESS.</span></h2>
+
+        <p class="section-description">
+          You were never meant to observe the universe.
+          You were meant to explore it.
+        </p>
+
+        <a href="#home" class="explore-btn">
+          RESTART EXPERIENCE <span>↗</span>
+        </a>
+      </div>
+
+      <div class="final-footer">
+        <span>NEXUS / INTERACTIVE EXPERIENCE</span>
+        <span>END OF TRANSMISSION</span>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- PORTAL MODAL -->
+  <div class="modal" id="portalModal">
+    <div class="modal-box">
+
+      <button class="modal-close" id="modalClose">×</button>
+
+      <p class="eyebrow" id="modalEyebrow">GATEWAY DETECTED</p>
+
+      <h2 id="modalTitle">ORIGIN</h2>
+
+      <p id="modalText"></p>
+
+      <div class="modal-data">
+        <span>STATUS</span>
+        <span id="modalStatus">CONNECTION ESTABLISHED</span>
+      </div>
+
+      <button class="modal-confirm" id="modalConfirm">
+        RETURN TO UNIVERSE ↗
+      </button>
+
+    </div>
+  </div>
+
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <div class="loader-logo">N/X</div>
+      <div class="loader-bar"><span></span></div>
+      <p>INITIALIZING UNIVERSE</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script type="module" src="script.js"></script>
+
+</body>
+</html>
